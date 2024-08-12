@@ -3,11 +3,14 @@ import { connectDB } from "./DB/connectDB.js";
 import dotenv from "dotenv";
 const app = express();
 
+import authRoute from './routes/auth.routes.js'
+
 dotenv.config();
 app.get("/", (req, res) => {
     res.send("Hello ");
 })
 
+app.use("/api/auth", authRoute);
 
 app.listen(3000, () => {
     connectDB();

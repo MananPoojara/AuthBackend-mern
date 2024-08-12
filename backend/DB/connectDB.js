@@ -1,3 +1,5 @@
+// it's connectDb where just connecting DB 
+
 import { mongoose } from 'mongoose';
 
 export const connectDB = async () => {
