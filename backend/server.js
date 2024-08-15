@@ -6,15 +6,19 @@ const app = express();
 import authRoute from './routes/auth.routes.js'
 
 dotenv.config();
+
+const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
     res.send("Hello ");
 })
 
+app.use(express.json()); //very imp it parse incoming request under req.body data in json
+
 app.use("/api/auth", authRoute);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     connectDB();
-    console.log("Server is Litening 3000 port")
+    console.log(`Server is Litening ${PORT} port`)
 })
 
 // 3WSJpv2lQS1mpoXN

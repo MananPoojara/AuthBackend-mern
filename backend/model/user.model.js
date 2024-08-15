@@ -1,7 +1,6 @@
-import { Timestamp } from "mongodb";
-import mongoose from "mongoose";
+import { mongoose } from "mongoose";
 
-const userSchema = new mongoose({
+const userSchema = new mongoose.Schema({
 
     email: {
         type: String,
@@ -31,4 +30,6 @@ const userSchema = new mongoose({
     verificationToken: String,
     verificationExpire: Date,
 
-}, { timestamp: true })
+}, { timestamps: true })
+
+export const User = mongoose.model('User', userSchema);
