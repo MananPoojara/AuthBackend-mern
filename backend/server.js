@@ -18,7 +18,7 @@ app.use("/api/auth", authRoute);
 
 app.listen(PORT, () => {
     connectDB();
-    console.log(`Server is Litening ${PORT} port`)
+    console.log(`Server is listening ${PORT} port`)
 })
 
 // 3WSJpv2lQS1mpoXN

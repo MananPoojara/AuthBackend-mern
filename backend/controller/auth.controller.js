@@ -14,7 +14,6 @@ export const signup = async (req, res) => {
 
         if (!email || !name || !password) {
             throw new Error("All fields Are Required");
-
         }
 
         const UserExist = await User.findOne({ email });
@@ -62,6 +61,7 @@ export const signup = async (req, res) => {
 
 }
 
+//Email Verification Endpoint
 export const verifyemail = async (req, res) => {
     // - - - - - - for emailcode
     const { code } = req.body;
@@ -98,6 +98,8 @@ export const signin = async (req, res) => {
     res.send("it's Signin")
 }
 
+//LogOut Endpoint 
 export const logout = async (req, res) => {
-    res.send("it's logout")
+    res.clearCookie("token");
+    res.status(200).json({ success: true, message: "Logged Out Successfully" })
 }
