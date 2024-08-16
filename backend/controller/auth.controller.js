@@ -3,9 +3,10 @@
 import { User } from '../model/user.model.js'
 import bcrypt from 'bcryptjs'
 import { genrateTokenAndSetToken } from '../utils/genrateTokenAndSetToken.js';
+import { sendWelcomEmail, sendverifictionemail } from '../mailtrap/emails.js';
 
 
-
+// Signup Endpoint
 export const signup = async (req, res) => {
     const { email, name, password } = req.body;
 
@@ -40,6 +41,8 @@ export const signup = async (req, res) => {
         //jwt
         genrateTokenAndSetToken(res, user._id)
 
+        await sendverifictionemail(user.email, verificationToken)
+
         res.status(201).json(
             {
                 success: true,
@@ -57,6 +60,38 @@ export const signup = async (req, res) => {
 
     }
 
+}
+
+export const verifyemail = async (req, res) => {
+    // - - - - - - for emailcode
+    const { code } = req.body;
+    try {
+        const user = await User.findOne({
+            verificationToken: code,
+            verificationExpire: { $gt: Date.now() }
+        })
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Invalid Or Expired Verification code" })
+        }
+
+        user.verified = true;
+        user.verificationToken = undefined;
+        user.verificationExpire = undefined;
+        await user.save();
+
+        await sendWelcomEmail(user.email, user.name);
+        res.status(200).json({
+            success: true,
+            message: "Email verified successfully",
+            user: {
+                ...user._doc,
+                password: undefined,
+
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const signin = async (req, res) => {
