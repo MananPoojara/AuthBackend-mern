@@ -94,11 +94,29 @@ export const verifyemail = async (req, res) => {
     }
 }
 
+//Sign In Endpoint
+//input validation
+//generate JWT token and set cookie
+//update last login date
 export const signin = async (req, res) => {
-    res.send("it's Signin")
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ status: false, message: "Invalid Credintial" })
+        }
+        //we comparing password with hashed password 
+        const ispasswordvalid = await bcrypt.compare(password, user.password);
+        
+
+
+    } catch (error) {
+
+    }
 }
 
-//LogOut Endpoint 
+//LogOut Endpoint  clearing cookies
 export const logout = async (req, res) => {
     res.clearCookie("token");
     res.status(200).json({ success: true, message: "Logged Out Successfully" })
