@@ -1,7 +1,7 @@
 // it's Router File Where We only define Our Routes 
 
 import express from "express";
-import { forgotpassword, logout, signin, signup, verifyemail } from "../controller/auth.controller.js";
+import { forgotpassword, logout, resetpassword, signin, signup, verifyemail } from "../controller/auth.controller.js";
 
 const router = express.Router();
 

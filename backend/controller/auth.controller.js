@@ -184,7 +184,7 @@ export const resetpassword = async (req, res) => {
         const { password } = req.body;
 
         const user = await User.findOne({
-            resetpassword: token,
+            resetPasswordToken: token,
             resetPasswordExpire: { $gt: Date.now() },
         });
         if (!user) {
@@ -202,7 +202,8 @@ export const resetpassword = async (req, res) => {
         await user.save();
 
 
-        sendResetPasswordEmail(user.email);
+        await sendResetPasswordEmail(user.email);
+        res.status(200).json({ success: true, message: "Password Reset Successfully" })
 
     } catch (error) {
         console.log(error)
